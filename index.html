@@ -103,7 +103,7 @@
   section:last-child{border-bottom:none}
   .sec-label{font-family:'DM Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:0.26em;color:var(--text3);margin-bottom:36px;display:flex;align-items:center;gap:14px;position:relative}
   .sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--border2),transparent)}
-  .sidebar .sec-label::before{content:"0" counter(sec-counter) " ";position:absolute;left:-24px;top:0;font-family:'DM Mono',monospace;font-size:9px;color:var(--text3)}
+  .sidebar .sec-label::before{content:"0" counter(sec-counter);position:absolute;left:-24px;top:0;font-family:'DM Mono',monospace;font-size:9px;color:var(--text3)}
 
   /* ABOUT */
   .about-p{font-size:15px;color:var(--text2);line-height:1.95;max-width:620px}
@@ -234,64 +234,425 @@
   .cert-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px}
   .cert-org{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.08em}
 
+  /* Wrapper divs — neutral on desktop, grid on tablet/mobile */
+  .sk-cats-wrap{display:block}
+  .edu-grid-wrap{display:block}
+  .str-grid-wrap{display:block}
+  .lang-wrap{display:block}
+  .cert-wrap{display:block}
+
   /* FOOTER */
   footer{width:100vw;margin-left:calc(50% - 50vw);border-top:var(--line);position:relative;z-index:1}
   .footer-inner{max-width:var(--content-w);margin:0 auto;padding:28px var(--pad);display:flex;justify-content:space-between;align-items:center}
   .f-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text3);letter-spacing:-.02em}
   .f-copy{font-family:'DM Mono',monospace;font-size:8.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.12em}
-  .print-btn{position:fixed;bottom:28px;right:28px;background:var(--gradient);color:var(--bg);border:none;padding:12px 24px;font-family:'DM Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;transition:all .25s;z-index:200;box-shadow:0 4px 28px rgba(200,164,74,.2);font-weight:500}
-  .print-btn:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(200,164,74,.35)}
+  /* ── FAB BUTTON ── */
+  .fab{position:fixed;bottom:28px;right:28px;z-index:200;display:flex;align-items:center;cursor:pointer;border:none;background:none;padding:0}
+  .fab-inner{display:flex;align-items:center;background:var(--bg3);border:1px solid rgba(200,164,74,.35);box-shadow:0 4px 28px rgba(0,0,0,.5),0 0 0 1px rgba(200,164,74,.08);overflow:hidden;transition:box-shadow .3s,border-color .3s}
+  .fab:hover .fab-inner{box-shadow:0 8px 40px rgba(0,0,0,.65),0 0 0 1px rgba(200,164,74,.2);border-color:rgba(200,164,74,.55)}
+  .fab-icon{width:48px;height:48px;flex-shrink:0;background:var(--gradient);display:flex;align-items:center;justify-content:center}
+  .fab-icon svg{width:16px;height:16px;fill:none;stroke:var(--bg);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .fab-label{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);white-space:nowrap;max-width:0;overflow:hidden;transition:max-width .35s cubic-bezier(.22,1,.36,1),padding .35s;padding:0}
+  .fab:hover .fab-label{max-width:120px;padding:0 14px 0 10px}
   .rv{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
   .rv.in{opacity:1;transform:none}
 
-  /* RESPONSIVE */
+  /* ══ RESPONSIVE — TABLET ══ */
   @media(max-width:1100px){
+    /* Layout: single column */
     .body-wrap{grid-template-columns:1fr}
     .content{border-right:none;padding-right:0}
-    .sidebar{padding-left:0;border-top:var(--line)}
-    .hero-inner{grid-template-columns:1fr}
-    .hero-left{border-right:none;border-bottom:var(--line);padding:80px 0 48px}
-    .hero-right{padding:48px 0 80px}
+
+    /* Sidebar becomes bottom section with proper spacing */
+    .sidebar{
+      padding-left:0;
+      border-top:var(--line);
+      border-left:none;
+      padding-top:0;
+    }
+    .sidebar::before{display:none}
+
+    /* Fix: counter was absolute at -24px, now inline with proper gap */
+    .sidebar .sec-label::before{
+      position:static;
+      margin-right:10px;
+      font-size:9px;
+      color:var(--text3);
+      opacity:.7;
+    }
+
+    /* Sidebar sections get full-width layout on tablet */
+    .sidebar section{
+      padding:48px 0;
+      border-bottom:var(--line);
+    }
+    .sidebar section:last-child{border-bottom:none}
+
+    /* Skills: 2 columns side by side on tablet */
+    .sk-cats-wrap{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:0 48px;
+    }
+    .sk-cat{margin-bottom:32px}
+    .sk-cat-l{font-size:10px;letter-spacing:.15em;margin-bottom:14px;padding-bottom:12px}
+    .sk-row{padding:11px 0}
+    .sk-name{font-size:13.5px}
+    .sk-bar{width:80px;height:2px}
+
+    /* Education: 3-col on tablet */
+    .edu-grid-wrap{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:0 40px;
+    }
+    .edu-item{padding:24px 0}
     .edu-item::before{display:none}
-    .pf-grid{grid-template-columns:repeat(2,1fr)}
+    .edu-deg{font-size:13px}
+    .edu-field{font-size:11.5px;margin-top:3px}
+    .edu-school{font-size:9px}
+    .edu-date,.edu-gpa{font-size:9px}
+
+    /* Strengths: 2-col wrap */
+    .str-grid-wrap{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:0 40px;
+    }
+    .str-item{font-size:14px;padding:11px 0}
+
+    /* Languages: side by side */
+    .lang-wrap{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:0 40px;
+    }
+    .lang-row{padding:11px 0}
+    .lang-name{font-size:14px}
+
+    /* Certifications: row layout */
+    .cert-wrap{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:0 40px;
+    }
+    .cert-item{padding:16px 0}
+    .cert-name{font-size:13px}
+    .cert-org{font-size:9.5px}
+
+    /* Hero */
+    .hero-inner{grid-template-columns:1fr}
+    .hero-left{border-right:none;border-bottom:var(--line);padding:80px 0 52px}
+    .hero-right{padding:52px 0 80px}
+    .pf-grid{grid-template-columns:repeat(3,1fr)}
+
+    /* Sections */
+    section{padding:56px 0}
+    .sec-label{margin-bottom:32px}
   }
+
+  /* ══ RESPONSIVE — MOBILE ══ */
   @media(max-width:768px){
-    :root{--pad:24px}
-    .exp-item{grid-template-columns:1fr;gap:8px}
+    :root{--pad:20px}
+
+    /* Sections more breathable */
+    section{padding:48px 0}
+    .sec-label{
+      font-size:10px;
+      letter-spacing:.22em;
+      margin-bottom:28px;
+    }
+
+    /* Hero */
+    .hero-left{padding:72px 0 44px}
+    .hero-right{padding:44px 0 64px}
+    .h-name{font-size:clamp(28px,7vw,42px)}
+    .h-sub{font-size:10.5px;letter-spacing:.12em;margin-top:14px}
+    .h-rule{margin:18px 0}
+    .h-desc{font-size:14px;line-height:1.9}
+    .h-pills{gap:7px;margin-top:22px}
+    .pill{font-size:9px;padding:6px 14px}
+
+    /* Contact cards */
+    .c-card{padding:14px 16px;gap:14px}
+    .c-ico{width:38px;height:38px}
+    .c-type{font-size:9.5px;letter-spacing:.12em}
+    .c-val{font-size:12.5px}
+
+    /* Stats */
+    .h-stats{grid-template-columns:repeat(3,1fr)}
+    .hst{padding:18px 16px}
+    .hst-n{font-size:24px}
+    .hst-l{font-size:8px;margin-top:5px}
+    .stats-row{grid-template-columns:1fr 1fr;margin-top:36px}
+    .stat{padding:24px 20px}
+    .stat-n{font-size:36px}
+    .stat-l{font-size:9px;margin-top:7px}
+
+    /* Experience */
+    .exp-item{grid-template-columns:1fr;gap:0;padding:36px 0}
     .exp-item::before{display:none}
-    .exp-date{padding-top:0}
-    .stats-row{grid-template-columns:1fr 1fr}
-    .pf-grid{grid-template-columns:repeat(2,1fr)}
-    .print-btn{bottom:14px;right:14px}
+    .exp-date{
+      padding-top:0;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:14px;
+      font-size:9.5px;
+    }
+    .exp-date br{display:none}
+    .exp-badge{margin-top:0}
+    .exp-head{gap:12px;margin-bottom:12px}
+    .co-logo{width:40px;height:40px}
+    .exp-role{font-size:16px}
+    .exp-co{font-size:10px}
+    .exp-desc{font-size:14px;line-height:1.9;margin-top:12px}
+    .exp-metric{font-size:11.5px;margin-top:10px;padding-left:13px}
+    .exp-tags{gap:6px;margin-top:14px}
+    .tag{font-size:9px;padding:4px 10px}
+
+    /* Portfolio */
+    .pf-filter{gap:6px;margin-bottom:22px}
+    .fb{font-size:9px;padding:7px 14px}
+    .pf-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+    .pt{height:100px}
+    .pt-cat{font-size:7.5px}
+    .pname{font-size:12px}
+    .purl{font-size:8px}
+    .ptags{gap:4px;margin-top:7px}
+    .ptag{font-size:7.5px;padding:2px 6px}
+
+    /* Availability CTA */
+    .avail-cta{padding:16px 18px;gap:12px;margin-top:24px}
+    .avail-status{font-size:13px}
+    .avail-sub{font-size:9px}
+    .avail-link{font-size:9.5px;padding:8px 14px}
+
+    /* Sidebar — stacked, generous spacing */
+    .sidebar section{padding:44px 0}
+
+    /* Sidebar counter — inline, not absolute/clipped */
+    .sidebar .sec-label::before{
+      position:static;
+      margin-right:10px;
+      opacity:.7;
+    }
+
+    .sk-cats-wrap{grid-template-columns:1fr;gap:0}
+    .sk-cat{margin-bottom:36px}
+    .sk-cat-l{font-size:9.5px;letter-spacing:.16em;margin-bottom:16px;padding-bottom:14px}
+    .sk-row{padding:14px 0}
+    .sk-name{font-size:14px}
+    .sk-bar{width:80px;height:2px}
+
+    /* Education: stack */
+    .edu-grid-wrap{grid-template-columns:1fr;gap:0}
+    .edu-item{padding:22px 0}
+    .edu-h{gap:12px;margin-bottom:9px}
+    .edu-logo{width:36px;height:36px}
+    .edu-deg{font-size:14px}
+    .edu-field{font-size:12px;margin-top:3px}
+    .edu-meta{margin-top:8px;gap:8px}
+    .edu-school{font-size:9.5px}
+    .edu-date,.edu-gpa{font-size:9.5px}
+    .edu-tags{margin-top:9px;gap:5px}
+    .edu-tag{font-size:8px;padding:3px 8px}
+
+    /* Strengths: stack */
+    .str-grid-wrap{grid-template-columns:1fr;gap:0}
+    .str-item{font-size:14px;padding:14px 0}
+    .str-item::before{width:5px;height:5px}
+
+    /* Languages */
+    .lang-wrap{grid-template-columns:1fr;gap:0}
+    .lang-row{padding:14px 0}
+    .lang-name{font-size:14px}
+    .ld{width:6px;height:6px}
+
+    /* Certifications */
+    .cert-wrap{grid-template-columns:1fr;gap:0}
+    .cert-item{padding:18px 0}
+    .cert-name{font-size:13px;margin-bottom:4px}
+    .cert-org{font-size:9.5px}
+
+    /* Footer */
+    .footer-inner{flex-direction:column;align-items:flex-start;gap:6px;padding:24px var(--pad)}
+    .f-name{font-size:13px}
+    .f-copy{font-size:8px}
+
+    .print-btn{bottom:16px;right:16px;padding:11px 20px;font-size:9px}
+    .fab{bottom:16px;right:16px}
   }
+
+  /* ══ RESPONSIVE — SMALL MOBILE ══ */
   @media(max-width:480px){
+    :root{--pad:18px}
+    section{padding:40px 0}
+
+    .h-name{font-size:clamp(26px,8vw,38px)}
     .stats-row{grid-template-columns:1fr}
     .pf-grid{grid-template-columns:1fr}
+    .pt{height:120px}
+
+    /* Hero stats: 3 col stays but smaller */
+    .h-stats{grid-template-columns:repeat(3,1fr)}
+    .hst{padding:16px 12px}
+    .hst-n{font-size:22px}
+    .hst-l{font-size:7.5px}
+
+    /* Make hero more compact */
+    .hero-left{padding:60px 0 40px}
+    .hero-right{padding:40px 0 56px}
+
+    .avail-cta{flex-direction:column;align-items:flex-start;gap:14px}
+    .avail-link{align-self:flex-start}
   }
 
   @media print{
-    body{background:#fff;color:#111}
-    .orb,nav,.print-btn,.hero-scroll,body::before,.ticker{display:none!important}
-    .hero{min-height:auto;width:100%;margin-left:0}
-    .hero-grid,.hero-glow,.hero-arc{display:none}
-    footer{width:100%;margin-left:0}
-    :root{--bg:#fff;--bg2:#f8f8f4;--bg3:#f0f0ea;--bg4:#e8e8e2;--border:#ddd;--border2:#ccc;--text:#111;--text2:#333;--text3:#666;--gold:#8a6c18;--gold2:#a88428;--gold3:#c09c38;--gold-dim:rgba(138,108,24,.05);--gradient:linear-gradient(135deg,#8a6c18,#c09c38)}
-    .h-name .gtext{color:#8a6c18}
-    .hst-n,.stat-n{-webkit-text-fill-color:#8a6c18}
+    /* ── Force dark colors through print ── */
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+
+    /* Hide non-essential elements */
+    .orb,.fab,.hero-scroll,body::before,.ticker,.hero-arc,
+    .hero-grid,.hero-glow,.pf-filter,.avail-cta,
+    .avail-link,.hero-watermark,.h-pills,footer,nav,
+    #portfolio,.about-p:last-of-type,.sep{display:none!important}
+
+    /* Page setup — A4, 2 pages max */
+    @page{size:A4 portrait;margin:10mm 12mm}
+    html,body{width:210mm;font-size:11px;line-height:1.5;background:#080807!important;color:#f2f0e8!important}
+
+    /* Keep dark vars */
+    :root{
+      --bg:#080807;--bg2:#0f0f0d;--bg3:#181714;
+      --border:#2a2924;--border2:#3a3830;
+      --text:#f2f0e8;--text2:#b8b6ac;--text3:#6a6860;
+      --gold:#c8a44a;--gold2:#e8c870;
+      --gold-dim:rgba(200,164,74,0.10);
+      --gradient:linear-gradient(135deg,#c8a44a,#f6e0a2,#c8a44a);
+      --line:1px solid #2a2924;
+      --pad:0;
+    }
+
+    /* Hero — compact single strip */
+    .hero{min-height:auto!important;width:100%!important;margin-left:0!important;border-bottom:1px solid #2a2924;background:#080807!important}
+    .hero-inner{
+      display:grid!important;
+      grid-template-columns:1fr 200px!important;
+      min-height:auto!important;
+      padding:12mm 0!important;
+      align-items:start;
+      gap:0;
+    }
+    .hero-left{padding:0 10mm 0 0!important;border-right:1px solid #2a2924;justify-content:flex-start}
+    .hero-right{padding:0 0 0 8mm!important;gap:6px!important}
+    .h-eyebrow{opacity:1!important;transform:none!important;animation:none!important;margin-bottom:6px;font-size:7px}
+    .h-name{opacity:1!important;transform:none!important;animation:none!important;font-size:18px!important;line-height:1.1}
+    .h-name .gtext{color:#c8a44a!important;-webkit-text-fill-color:#c8a44a!important}
+    .h-sub{opacity:1!important;transform:none!important;animation:none!important;font-size:7.5px;margin-top:5px}
+    .h-rule{opacity:1!important;transform:none!important;animation:none!important;margin:8px 0;background:#c8a44a!important}
+    .h-desc{opacity:1!important;transform:none!important;animation:none!important;font-size:9.5px;line-height:1.6;max-width:100%}
+
+    /* Contact cards compact */
+    .c-card{padding:5px 8px!important;gap:8px!important;border:1px solid #2a2924!important;background:#0f0f0d!important;margin-bottom:4px}
+    .c-ico{width:22px!important;height:22px!important;background:#181714!important;border:1px solid #2a2924!important}
+    .c-ico svg{width:9px!important;height:9px!important;stroke:#6a6860!important}
+    .c-type{font-size:6.5px!important}
+    .c-val{font-size:8.5px!important;color:#b8b6ac!important}
+    .h-stats{display:none!important}
+
+    /* Body layout — 2 col */
+    .body-wrap{
+      display:grid!important;
+      grid-template-columns:1fr 130px!important;
+      padding:0!important;
+      margin:0!important;
+      width:100%!important;
+      gap:0;
+    }
+    .content{border-right:1px solid #2a2924!important;padding-right:8mm!important}
+    .sidebar{padding-left:8mm!important;border-top:none!important}
+    .sidebar::before{display:none!important}
+
+    /* Section spacing — very tight */
+    section{padding:8px 0!important;border-bottom:1px solid #2a2924!important}
+    section:last-child{border-bottom:none!important}
+    .sec-label{font-size:7px!important;margin-bottom:10px!important;letter-spacing:.2em}
+    .sec-label::after{background:linear-gradient(to right,#3a3830,transparent)!important}
+
+    /* About — show only 1 paragraph */
+    #about .about-p:first-of-type{display:block!important;font-size:9px!important;line-height:1.6!important;color:#b8b6ac!important;max-width:100%}
+    #about .sep{display:none!important}
+    #about .stats-row{display:none!important}
+
+    /* Experience — compact */
+    .exp-item{display:grid!important;grid-template-columns:52px 1fr!important;gap:10px!important;padding:8px 0!important;border-bottom:1px solid #2a2924!important}
+    .exp-item:last-child{border-bottom:none!important}
+    .exp-item::before{display:none!important}
+    .exp-date{font-size:6.5px!important;line-height:1.7!important;padding-top:2px!important;color:#6a6860!important}
+    .exp-badge{font-size:6px!important;padding:2px 4px!important;margin-top:3px!important}
+    .exp-head{gap:7px!important;margin-bottom:5px!important}
+    .co-logo{width:24px!important;height:24px!important;border:1px solid #2a2924!important;background:#181714!important}
+    .co-logo .fbi svg{width:10px!important;height:10px!important;stroke:#6a6860!important}
+    .exp-role{font-size:10px!important;margin-bottom:2px!important}
+    .exp-co{font-size:7px!important;color:#b8b6ac!important}
+    .exp-sm{font-size:6.5px!important;padding:1px 4px!important;background:#181714!important;border:1px solid #2a2924!important;color:#6a6860!important}
+    .exp-desc{font-size:8.5px!important;line-height:1.55!important;margin-top:5px!important;color:#b8b6ac!important}
+    .exp-metric{font-size:8px!important;margin-top:4px!important;padding-left:8px!important;color:#e8c870!important;border-left:2px solid rgba(232,200,112,.3)!important}
+    .exp-tags{gap:3px!important;margin-top:6px!important}
+    .tag{font-size:6.5px!important;padding:2px 5px!important;background:#181714!important;border:1px solid #2a2924!important;color:#6a6860!important}
+
+    /* Sidebar sections tight */
+    .sidebar section{padding:8px 0!important}
+    .sk-cats-wrap{display:block!important}
+    .sk-cat{margin-bottom:8px!important}
+    .sk-cat-l{font-size:7px!important;margin-bottom:5px!important;padding-bottom:5px!important;border-bottom:1px solid #2a2924!important;color:#6a6860!important;letter-spacing:.12em}
+    .sk-row{padding:4px 0!important;border-bottom:1px solid rgba(42,41,36,.5)!important}
+    .sk-name{font-size:8.5px!important;color:#b8b6ac!important}
+    .sk-bar{width:48px!important;height:2px!important;background:#3a3830!important}
+    .sk-fill{transform:scaleX(var(--w,0))!important;background:linear-gradient(135deg,#c8a44a,#f6e0a2)!important}
+
+    /* Education compact */
+    .edu-grid-wrap{display:block!important}
+    .edu-item{padding:7px 0!important;border-bottom:1px solid #2a2924!important}
+    .edu-item:last-child{border-bottom:none!important}
+    .edu-item::before{display:none!important}
+    .edu-h{gap:7px!important;margin-bottom:4px!important}
+    .edu-logo{width:20px!important;height:20px!important;background:#181714!important;border:1px solid #2a2924!important}
+    .edu-logo img{padding:2px!important}
+    .edu-deg{font-size:9px!important;color:#f2f0e8!important}
+    .edu-field{font-size:8px!important;color:#b8b6ac!important;margin-top:1px!important}
+    .edu-meta{margin-top:3px!important;gap:5px!important}
+    .edu-school{font-size:7px!important;color:#c8a44a!important}
+    .edu-date,.edu-gpa{font-size:7px!important;color:#6a6860!important}
+    .edu-tags{display:none!important}
+
+    /* Strengths */
+    .str-grid-wrap{display:grid!important;grid-template-columns:1fr 1fr!important;gap:0!important}
+    .str-item{font-size:8.5px!important;padding:4px 0!important;color:#b8b6ac!important;border-bottom:1px solid rgba(42,41,36,.5)!important}
+    .str-item::before{width:3px!important;height:3px!important;background:#c8a44a!important}
+
+    /* Languages */
+    .lang-wrap{display:block!important}
+    .lang-row{padding:4px 0!important;border-bottom:1px solid rgba(42,41,36,.5)!important}
+    .lang-name{font-size:8.5px!important;color:#b8b6ac!important}
+    .ld{width:4px!important;height:4px!important;border:1px solid #3a3830!important}
+    .ld.f{background:#c8a44a!important;border-color:#c8a44a!important}
+    .lang-dots{gap:3px!important}
+
+    /* Certifications */
+    .cert-wrap{display:block!important}
+    .cert-item{padding:5px 0!important;border-bottom:1px solid rgba(42,41,36,.5)!important}
+    .cert-item:last-child{border-bottom:none!important}
+    .cert-name{font-size:8.5px!important;color:#f2f0e8!important;margin-bottom:2px!important}
+    .cert-org{font-size:7px!important;color:#6a6860!important}
+
+    /* Reveal all hidden */
     .rv{opacity:1!important;transform:none!important}
-    .h-eyebrow,.h-name,.h-sub,.h-rule,.h-desc,.h-pills,.hero-right{opacity:1!important;transform:none!important;animation:none!important}
     *{animation:none!important;transition:none!important}
-    .body-wrap{grid-template-columns:1fr 210px;padding:0 14px}
-    .content{border-right:1px solid #ddd;padding-right:18px}
-    .sidebar{padding-left:18px}
-    section{padding:18px 0}
-    .pf-grid{grid-template-columns:repeat(4,1fr)}
-    .pt{height:55px}
-    .footer-inner{padding:14px}
-    .hero-inner{grid-template-columns:1fr auto;padding:0 14px}
-    .hero-left{padding:30px 32px 30px 0}
-    .hero-right{padding:30px 0 30px 32px}
-    .avail-cta{display:none}
+
+    /* Mobile responsive wrappers reset for print */
+    .sk-cats-wrap,.edu-grid-wrap,.str-grid-wrap,.lang-wrap,.cert-wrap{display:block!important}
   }
 </style>
 </head>
@@ -315,7 +676,7 @@
   <div class="hero-inner">
     <div class="hero-left">
       <div class="hero-watermark">MAH</div>
-      <p class="h-eyebrow">Portfolio Resume — 2026</p>
+      <p class="h-eyebrow">Portfolio Resume — 2025</p>
       <h1 class="h-name">Muhammad Ammar<span class="gtext">Hafiz</span></h1>
       <p class="h-sub"><b>Web Designer</b> &amp; <b>Developer</b> &nbsp;·&nbsp; <b>UI/UX Specialist</b><br>Kuala Lumpur, Malaysia</p>
       <div class="h-rule"></div>
@@ -440,6 +801,7 @@
           <div><div class="exp-role">Graphic Design &amp; Web Developer</div><div class="exp-co-row"><span class="exp-co">Aurum Agency</span><span class="exp-sm">Part-time · Remote</span></div></div>
         </div>
         <p class="exp-desc">Handled graphic design, video editing, and web development. Created branding materials, social media graphics, and marketing collateral. Produced promotional videos and motion graphics.</p>
+        <span class="exp-metric">Produced design assets for 10+ brand campaigns across social media and web platforms.</span>
         <div class="exp-tags"><span class="tag">Adobe Suite</span><span class="tag">Premiere Pro</span><span class="tag">After Effects</span><span class="tag">WordPress</span><span class="tag">Branding</span></div>
       </div>
     </div>
@@ -557,6 +919,7 @@
 <div class="sidebar">
   <section id="skills">
     <p class="sec-label rv">Skills</p>
+    <div class="sk-cats-wrap">
     <div class="sk-cat">
       <div class="sk-cat-l">Design</div>
       <div class="sk-row"><span class="sk-name">Figma</span><div class="sk-bar"><div class="sk-fill" data-w=".95"></div></div></div>
@@ -581,10 +944,12 @@
       <div class="sk-row"><span class="sk-name">Elementor / Breakdance</span><div class="sk-bar"><div class="sk-fill" data-w=".90"></div></div></div>
       <div class="sk-row"><span class="sk-name">Project Management</span><div class="sk-bar"><div class="sk-fill" data-w=".78"></div></div></div>
     </div>
+    </div>
   </section>
 
   <section id="education">
     <p class="sec-label rv">Education</p>
+    <div class="edu-grid-wrap">
     <div class="edu-item rv">
       <div class="edu-h">
         <div class="edu-logo"><img src="https://www.uptm.edu.my/images/logo/LOGO_UPTM_no_bg_baru1.png" alt="UPTM" onerror="this.parentElement.innerHTML='<span class=\'fbi\'><svg viewBox=\'0 0 24 24\'><path d=\'M22 10v6M2 10l10-5 10 5-10 5z\'/><path d=\'M6 12v5c3 3 9 3 12 0v-5\'/></svg></span>'"/></div>
@@ -610,29 +975,36 @@
       <div class="edu-meta"><span class="edu-school">Universiti Poly-Tech Malaysia</span></div>
       <div class="edu-meta" style="margin-top:5px"><span class="edu-date">Jul 2020 — Nov 2022</span><span class="edu-gpa">&nbsp;· CGPA 3.78</span></div>
     </div>
+    </div>
   </section>
 
   <section>
     <p class="sec-label rv">Strengths</p>
+    <div class="str-grid-wrap">
     <div class="str-item rv">Problem Solving</div>
     <div class="str-item rv">Client Communication</div>
     <div class="str-item rv">Team Collaboration</div>
     <div class="str-item rv">Training &amp; Mentoring</div>
     <div class="str-item rv">Attention to Detail</div>
     <div class="str-item rv">Design Systems</div>
+    </div>
   </section>
 
   <section>
     <p class="sec-label rv">Languages</p>
+    <div class="lang-wrap">
     <div class="lang-row rv"><span class="lang-name">Bahasa Malaysia</span><div class="lang-dots"><div class="ld f"></div><div class="ld f"></div><div class="ld f"></div><div class="ld f"></div><div class="ld f"></div></div></div>
     <div class="lang-row rv"><span class="lang-name">English</span><div class="lang-dots"><div class="ld f"></div><div class="ld f"></div><div class="ld f"></div><div class="ld f"></div><div class="ld"></div></div></div>
+    </div>
   </section>
 
   <section>
     <p class="sec-label rv">Certifications</p>
+    <div class="cert-wrap">
     <div class="cert-item rv"><div class="cert-name">Certified Figma Trainer</div><div class="cert-org">Figma — Sawangville Digital Solutions</div></div>
     <div class="cert-item rv"><div class="cert-name">WordPress Professional</div><div class="cert-org">15+ live client deployments</div></div>
     <div class="cert-item rv"><div class="cert-name">IT Cybersecurity (Hons)</div><div class="cert-org">Universiti Poly-Tech Malaysia, 2025</div></div>
+    </div>
   </section>
 </div>
 </div>
@@ -640,11 +1012,18 @@
 <footer>
   <div class="footer-inner">
     <span class="f-name">Muhammad Ammar Hafiz</span>
-    <span class="f-copy">Resume 2026 — Web Designer &amp; Developer</span>
+    <span class="f-copy">Resume 2025 — Web Designer &amp; Developer</span>
   </div>
 </footer>
 
-<button class="print-btn" onclick="window.print()">Save as PDF</button>
+<button class="fab" onclick="window.print()" aria-label="Save as PDF">
+  <div class="fab-inner">
+    <div class="fab-icon">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </div>
+    <span class="fab-label">Save as PDF</span>
+  </div>
+</button>
 
 <script>
 // TICKER
@@ -708,7 +1087,9 @@ new IntersectionObserver(entries=>{
   if(entries[0].isIntersecting&&!skDone){
     skDone=true;
     document.querySelectorAll('.sk-fill').forEach((f,i)=>{
-      setTimeout(()=>{f.style.transform=`scaleX(${f.dataset.w})`},i*58+100);
+      const w=f.dataset.w;
+      f.style.setProperty('--w',w); // for print
+      setTimeout(()=>{f.style.transform=`scaleX(${w})`},i*58+100);
     });
   }
 },{threshold:.15}).observe(document.getElementById('skills'));
